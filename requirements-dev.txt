@@ -1,0 +1,3 @@
+# Databricks provides PySpark in its runtime. These are local-development dependencies.
+pyspark>=3.5,<4.0
+pytest>=8.0,<9.0

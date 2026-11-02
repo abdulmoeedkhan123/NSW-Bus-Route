@@ -1,0 +1,52 @@
+-- Create these measures in Power BI after connecting to the Gold tables.
+-- Table names are the pipeline output table names (without catalog/schema prefixes).
+
+Total Source Records =
+SUM ( 'network_overview'[source_record_count] )
+
+Candidate Route Identities =
+SUM ( 'network_overview'[route_candidate_count] )
+
+Distinct Route Names =
+SUM ( 'network_overview'[distinct_route_name_count] )
+
+Distinct Operator IDs =
+SUM ( 'network_overview'[distinct_operator_id_count] )
+
+Distinct Operator Names =
+SUM ( 'network_overview'[distinct_operator_name_count] )
+
+School Variant Record Share =
+DIVIDE (
+    SUM ( 'network_overview'[school_variant_record_count] ),
+    [Total Source Records]
+)
+
+Exact Duplicate Extra Rows =
+SUM ( 'network_overview'[exact_duplicate_extra_row_count] )
+
+Missing Contract ID Records =
+SUM ( 'network_overview'[missing_contract_id_count] )
+
+Unresolved Route Identity Records =
+SUM ( 'network_overview'[unresolved_route_identity_record_count] )
+
+Average Operator Email Record Coverage =
+AVERAGE ( 'operator_summary'[email_record_coverage] )
+
+Average Operator Phone Record Coverage =
+AVERAGE ( 'operator_summary'[phone_record_coverage] )
+
+Total Data Quality Issues =
+SUM ( 'data_quality_summary'[issue_count] )
+
+Fields Below 95 Percent Completeness =
+COUNTROWS (
+    FILTER (
+        'field_completeness',
+        'field_completeness'[completeness_pct] < 0.95
+    )
+)
+
+Field Completeness =
+AVERAGE ( 'field_completeness'[completeness_pct] )
